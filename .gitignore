@@ -1,0 +1,25 @@
+# Ignore build directory
+build/
+build/*
+
+# CMake-generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Executables
+*.exe
+*.out
+*.a
+*.so
+*.dll
+*.dylib
+
+# VSCode  config
+.vscode/
+
+# Backup & temp
+*.swp
+*~
