@@ -23,6 +23,7 @@ public:
 protected:
     ICommand(const typeCommand& typeCommand,
         const Point& point);
+    Point getPoint() const;    
     
 private:
     typeCommand _typeCommand;

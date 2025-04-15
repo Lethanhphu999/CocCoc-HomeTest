@@ -28,13 +28,17 @@ std::shared_ptr<ICommand> ICommand::Create(const typeCommand& type,
         }
 }
 
+Point ICommand::getPoint() const {
+    return _point;
+}
+
 MoveCommand::MoveCommand(const typeCommand& typeCommand,
     const Point& point) : ICommand (typeCommand, point) {
 
 }
 
 void MoveCommand::Exec(std::shared_ptr<IMap> map) {
-    map->MoveTo();
+    map->MoveTo({getPoint()});
 }
 
 
@@ -44,7 +48,7 @@ LineCommand::LineCommand(const typeCommand& typeCommand,
 }
 
 void LineCommand::Exec(std::shared_ptr<IMap> map) {
-    map->LineTo();
+    map->LineTo({getPoint()});
 }
 
 
