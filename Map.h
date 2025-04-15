@@ -5,6 +5,8 @@ struct Point {
     long long y;
     char symbol;
 
+    Point() : x(0), y(0), symbol('.') {}
+
     Point& operator+(const Point& other) {
         this->x = this->x + other.x;
         this->y = this->y + other.y;
@@ -58,5 +60,5 @@ private:
 
     const std::string _path;
     std::vector<Point> _point;
-
+    Point _currentPoint;
 };
