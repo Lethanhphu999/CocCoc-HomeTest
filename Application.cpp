@@ -2,12 +2,13 @@
 
 Application::Application(const std::string& path)
 : _commandController(std::make_shared<CommandController>(path)),
-_map(std::make_unique<Map>(path)) {
+_map(std::make_shared<Map>(path)) {
 }
 
 void Application::Exec() {
     Start();
-
+    _commandController->ExecCommands(_map);
+    _commandController->ExecSpecialCommad(_map);
     End();
 }
 

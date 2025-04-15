@@ -3,6 +3,8 @@
 #include "pch.h"
 #include "Map.h"
 
+class Map;
+struct Point;
 
 enum class typeCommand {
     MOVE_TO,
@@ -10,18 +12,14 @@ enum class typeCommand {
     SPECIAL, 
 };
 
-struct Point {
-    long long x;
-    long long y;
-};
-
-
 class ICommand {
 public:
 
     static std::shared_ptr<ICommand> Create(const typeCommand& type,
                                             const Point& point);
     virtual void Exec(std::shared_ptr<Map>& map) = 0;
+    virtual ~ICommand() = default; 
+
 protected:
     ICommand(const typeCommand& typeCommand,
         const Point& point);

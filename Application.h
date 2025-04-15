@@ -19,5 +19,5 @@ private:
     std::string _path;
    
     std::shared_ptr<CommandController> _commandController;
-    std::unique_ptr<Map> _map;
+    std::shared_ptr<Map> _map;
 };
