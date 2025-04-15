@@ -11,12 +11,14 @@ set(SOURCES
     main.cpp
     Application.cpp
     CommandController.cpp
+    Command.cpp
     Map.cpp
 )
 
 set(HEADERS
     Application.h
     CommandController.h
+    Command.h
     Map.h
 )
 

@@ -10,6 +10,7 @@ class CommandController;
 class Application {
 public:
     explicit Application(const std::string& path);
+    ~Application() = default;
     void Exec();
 private:
     void Start();

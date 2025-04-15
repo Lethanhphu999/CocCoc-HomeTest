@@ -3,7 +3,7 @@
 class Map {
 public:
     Map(const std::string& path);
-
+    ~Map() = default;
 
 
 private:    
