@@ -9,7 +9,7 @@ Với hê điều hành Windows:
 * Download **Git** installer từ [https://git-scm.com/download/win](https://git-scm.com/download/win) và cài đặt.
 * Download **CMake** installer từ [https://cmake.org/download/](https://cmake.org/download/) và cài đặt.
 
-Với hệ điều hành Ubutu:
+Với hệ điều hành Ubuntu:
 * Mở termial nhập command:
 
 ``` bash
@@ -21,6 +21,7 @@ sudo apt install cmake
 
 ```bash
 git clone https://github.com/Lethanhphu999/CocCoc-HomeTest.git
+cd CocCoc-HomeTest
 ```
 
 ## Build the project
