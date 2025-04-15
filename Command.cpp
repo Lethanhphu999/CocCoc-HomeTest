@@ -33,7 +33,7 @@ MoveCommand::MoveCommand(const typeCommand& typeCommand,
 
 }
 
-void MoveCommand::Exec(std::shared_ptr<Map>& map) {
+void MoveCommand::Exec(std::shared_ptr<Map> map) {
     //map->move().
 }
 
@@ -43,7 +43,7 @@ LineCommand::LineCommand(const typeCommand& typeCommand,
 
 }
 
-void LineCommand::Exec(std::shared_ptr<Map>& map) {
+void LineCommand::Exec(std::shared_ptr<Map> map) {
     //map->lineTo().
 }
 
@@ -53,7 +53,7 @@ SpecialCommad::SpecialCommad(const typeCommand& typeCommand,
 
 }
 
-void SpecialCommad::Exec(std::shared_ptr<Map>& map) {
+void SpecialCommad::Exec(std::shared_ptr<Map> map) {
     //map->special().
 }
 
