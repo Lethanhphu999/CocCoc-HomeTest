@@ -10,5 +10,5 @@ cmake ..
 make
 
 # Chạy chương trình sau khi build
-echo -e "\n=== Running CocCoc ==="
+echo -e "\n============ Running CocCoc ============"
 ./CocCoc

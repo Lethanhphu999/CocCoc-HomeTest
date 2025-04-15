@@ -1,6 +1,7 @@
-#include<iostream>
+#include"Application.h"
 
 int main() {
-    std::cout << "Hello CocCoc\n";
-    return 0;
+    Application* App = new Application("path");
+    App->Exec();
+    delete(App);
 }
