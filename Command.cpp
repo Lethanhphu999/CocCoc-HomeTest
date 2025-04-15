@@ -20,7 +20,7 @@ std::shared_ptr<ICommand> ICommand::Create(const typeCommand& type,
             return std::make_shared<LineCommand>(type, point);
             break;
         case Type::SPECIAL:
-            return std::make_shared<LineCommand>(type, point);
+            return std::make_shared<SpecialCommad>(type, point);
             break;    
         default:
             throw("NOT FOUND TYPE COMMAND!!!");
@@ -33,8 +33,8 @@ MoveCommand::MoveCommand(const typeCommand& typeCommand,
 
 }
 
-void MoveCommand::Exec(std::shared_ptr<Map> map) {
-    //map->move().
+void MoveCommand::Exec(std::shared_ptr<IMap> map) {
+    map->MoveTo();
 }
 
 
@@ -43,8 +43,8 @@ LineCommand::LineCommand(const typeCommand& typeCommand,
 
 }
 
-void LineCommand::Exec(std::shared_ptr<Map> map) {
-    //map->lineTo().
+void LineCommand::Exec(std::shared_ptr<IMap> map) {
+    map->LineTo();
 }
 
 
@@ -53,8 +53,8 @@ SpecialCommad::SpecialCommad(const typeCommand& typeCommand,
 
 }
 
-void SpecialCommad::Exec(std::shared_ptr<Map> map) {
-    //map->special().
+void SpecialCommad::Exec(std::shared_ptr<IMap> map) {
+    map->HandleSpecialAction();
 }
 
 

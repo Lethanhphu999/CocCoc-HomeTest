@@ -17,7 +17,7 @@ public:
 
     static std::shared_ptr<ICommand> Create(const typeCommand& type,
                                             const Point& point);
-    virtual void Exec(std::shared_ptr<Map> map) = 0;
+    virtual void Exec(std::shared_ptr<IMap> map) = 0;
     virtual ~ICommand() = default; 
 
 protected:
@@ -33,7 +33,7 @@ class MoveCommand : public ICommand {
 public:
     MoveCommand(const typeCommand& typeCommand,
                 const Point& point);
-    void Exec(std::shared_ptr<Map> map) override;           
+    void Exec(std::shared_ptr<IMap> map) override;           
     
 };
 
@@ -41,7 +41,7 @@ class LineCommand : public ICommand {
 public:
     LineCommand(const typeCommand& typeCommand,
                 const Point& point);
-    void Exec(std::shared_ptr<Map> map) override;    
+    void Exec(std::shared_ptr<IMap> map) override;    
 };
 
 
@@ -49,6 +49,6 @@ class SpecialCommad : public ICommand {
 public:
     SpecialCommad(const typeCommand& typeCommand,
                 const Point& point);
-    void Exec(std::shared_ptr<Map> map) override;    
+    void Exec(std::shared_ptr<IMap> map) override;    
 };
 

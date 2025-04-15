@@ -9,8 +9,8 @@ public:
     CommandController(const std::string& path);
     ~CommandController() = default;
 
-    void ExecCommands(std::shared_ptr<Map> map);
-    void ExecSpecialCommad(std::shared_ptr<Map> map);
+    void ExecCommands(std::shared_ptr<IMap> map);
+    void ExecSpecialCommad(std::shared_ptr<IMap> map);
 
 private:    
     void ParseCommands();
