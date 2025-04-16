@@ -38,9 +38,9 @@ public:
     IMap() = default;
     virtual ~IMap() = default; 
 
-    virtual void MoveTo(const ConfigurationAction&) = 0;
-    virtual void LineTo(const ConfigurationAction&) = 0;
-    virtual void HandleSpecialAction() {
+    virtual void moveTo(const ConfigurationAction&) = 0;
+    virtual void lineTo(const ConfigurationAction&) = 0;
+    virtual void handleSpecialAction() {
         return;
     }
 };
@@ -51,12 +51,12 @@ public:
     Map(const std::string& path);
     ~Map() = default;
 
-    void MoveTo(const ConfigurationAction&) override;
-    void LineTo(const ConfigurationAction&) override;
-    void HandleSpecialAction() override;
+    void moveTo(const ConfigurationAction&) override;
+    void lineTo(const ConfigurationAction&) override;
+    void handleSpecialAction() override;
 
 private:    
-    void ClearPoint(const Point& point);
+    void clearPoint(const Point& point);
 
     const std::string _path;
     std::vector<Point> _point;

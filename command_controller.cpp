@@ -1,31 +1,31 @@
 #include "pch.h"
 
-#include "CommandController.h"
+#include "command_controller.h"
 
 
 CommandController::CommandController(const std::string& path)
 : _path(path) {
-    ParseCommands();
+    parseCommands();
 }
 
-void CommandController::ParseCommands() {
+void CommandController::parseCommands() {
 
 }
 
-void CommandController::ExecCommands(std::shared_ptr<IMap> map) {
+void CommandController::execCommands(std::shared_ptr<IMap> map) {
     for (auto& command : _commands) {
-        command->Exec(map);
+        command->exec(map);
     }
 }
 
-void CommandController::ExecSpecialCommad(std::shared_ptr<IMap> map) {
+void CommandController::execSpecialCommands(std::shared_ptr<IMap> map) {
     if (_specialCommands.empty()) {
         std::cout << "----------NO SPECIAL COMMAND!!-------------\n";
         return;
     }
 
     for (auto& command : _specialCommands) {
-        command->Exec(map);
+        command->exec(map);
     }
 }
 

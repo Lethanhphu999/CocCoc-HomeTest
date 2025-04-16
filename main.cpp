@@ -1,7 +1,7 @@
-#include"Application.h"
+#include"application.h"
 
 int main() {
-    Application* App = new Application("path");
-    App->Exec();
-    delete(App);
+    Application* app = new Application("path");
+    app->exec();
+    delete(app);
 }

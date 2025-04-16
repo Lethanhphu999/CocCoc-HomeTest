@@ -1,8 +1,8 @@
 #pragma once
 
 #include "pch.h"
-#include "CommandController.h"
-#include "Map.h"
+#include "command_controller.h"
+#include "map.h"
 
 class IMap;
 class CommandController;
@@ -11,13 +11,13 @@ class Application {
 public:
     explicit Application(const std::string& path);
     ~Application() = default;
-    void Exec();
+    void exec();
 private:
-    void Start();
-    void End();
+    void start();
+    void end();
 private:
     std::string _path;
    
-    std::shared_ptr<CommandController> _commandController;
+    std::unique_ptr<CommandController> _commandController;
     std::shared_ptr<IMap> _map;
 };

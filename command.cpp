@@ -1,18 +1,17 @@
-#include "Command.h"
+#include "command.h"
 
 
-ICommand::ICommand(const typeCommand& typeCommand,
+ICommand::ICommand(const TypeCommand& typeCommand,
     const Point& point)
 : _typeCommand(typeCommand),
 _point(point) {
 
 }
 
-std::shared_ptr<ICommand> ICommand::Create(const typeCommand& type,
+std::shared_ptr<ICommand> ICommand::Create(const TypeCommand& type,
     const Point& point) {
-        using Type = typeCommand;
-        switch (type)
-        {
+        using Type = TypeCommand;
+        switch (type) {
         case Type::MOVE_TO:
             return std::make_shared<MoveCommand>(type, point);
             break;
@@ -28,37 +27,34 @@ std::shared_ptr<ICommand> ICommand::Create(const typeCommand& type,
         }
 }
 
-Point ICommand::getPoint() const {
-    return _point;
-}
 
-MoveCommand::MoveCommand(const typeCommand& typeCommand,
+MoveCommand::MoveCommand(const TypeCommand& typeCommand,
     const Point& point) : ICommand (typeCommand, point) {
 
 }
 
-void MoveCommand::Exec(std::shared_ptr<IMap> map) {
-    map->MoveTo({getPoint()});
+void MoveCommand::exec(std::shared_ptr<IMap> map) {
+    map->moveTo({getPoint()});
 }
 
 
-LineCommand::LineCommand(const typeCommand& typeCommand,
+LineCommand::LineCommand(const TypeCommand& typeCommand,
     const Point& point) : ICommand (typeCommand, point) {
 
 }
 
-void LineCommand::Exec(std::shared_ptr<IMap> map) {
-    map->LineTo({getPoint()});
+void LineCommand::exec(std::shared_ptr<IMap> map) {
+    map->lineTo({getPoint()});
 }
 
 
-SpecialCommad::SpecialCommad(const typeCommand& typeCommand,
+SpecialCommad::SpecialCommad(const TypeCommand& typeCommand,
     const Point& point) : ICommand (typeCommand, point) {
 
 }
 
-void SpecialCommad::Exec(std::shared_ptr<IMap> map) {
-    map->HandleSpecialAction();
+void SpecialCommad::exec(std::shared_ptr<IMap> map) {
+    map->handleSpecialAction();
 }
 
 

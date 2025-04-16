@@ -9,17 +9,17 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Sources
 set(SOURCES
     main.cpp
-    Application.cpp
-    CommandController.cpp
-    Command.cpp
-    Map.cpp
+    application.cpp
+    command_controller.cpp
+    command.cpp
+    map.cpp
 )
 
 set(HEADERS
-    Application.h
-    CommandController.h
-    Command.h
-    Map.h
+    application.h
+    command_controller.h
+    command.h
+    map.h
 )
 
 # Add executable

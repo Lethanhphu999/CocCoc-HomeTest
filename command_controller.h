@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "Command.h"
+#include "command.h"
 
 class ICommand;
 
@@ -9,11 +9,11 @@ public:
     CommandController(const std::string& path);
     ~CommandController() = default;
 
-    void ExecCommands(std::shared_ptr<IMap> map);
-    void ExecSpecialCommad(std::shared_ptr<IMap> map);
+    void execCommands(std::shared_ptr<IMap> map);
+    void execSpecialCommands(std::shared_ptr<IMap> map);
 
 private:    
-    void ParseCommands();
+    void parseCommands();
     const std::string _path;
     std::vector<std::shared_ptr<ICommand>> _commands;
     std::vector<std::shared_ptr<ICommand>> _specialCommands;
