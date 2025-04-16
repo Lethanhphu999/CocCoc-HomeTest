@@ -1,4 +1,4 @@
-#include "command.h"
+#include "commands/command.h"
 
 
 ICommand::ICommand(const TypeCommand& typeCommand,
@@ -33,7 +33,7 @@ MoveCommand::MoveCommand(const TypeCommand& typeCommand,
 
 }
 
-void MoveCommand::exec(std::shared_ptr<IMap> map) {
+void MoveCommand::exec(std::shared_ptr<IMap> map) const {
     map->moveTo({getPoint()});
 }
 
@@ -43,7 +43,7 @@ LineCommand::LineCommand(const TypeCommand& typeCommand,
 
 }
 
-void LineCommand::exec(std::shared_ptr<IMap> map) {
+void LineCommand::exec(std::shared_ptr<IMap> map) const {
     map->lineTo({getPoint()});
 }
 
@@ -53,7 +53,7 @@ SpecialCommad::SpecialCommad(const TypeCommand& typeCommand,
 
 }
 
-void SpecialCommad::exec(std::shared_ptr<IMap> map) {
+void SpecialCommad::exec(std::shared_ptr<IMap> map) const {
     map->handleSpecialAction();
 }
 

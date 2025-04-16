@@ -1,6 +1,4 @@
-#include "pch.h"
-
-#include "command_controller.h"
+#include "commands/command_controller.h"
 
 
 CommandController::CommandController(const std::string& path)

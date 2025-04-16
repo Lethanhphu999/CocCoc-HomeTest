@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "command.h"
+#include "commands/command.h"
 
 class ICommand;
 

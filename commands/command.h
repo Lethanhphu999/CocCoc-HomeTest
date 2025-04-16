@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "map.h"
+#include "data/map.h"
 
 class Map;
 struct Point;
@@ -17,7 +17,7 @@ public:
 
     static std::shared_ptr<ICommand> Create(const TypeCommand& type,
                                             const Point& point);
-    virtual void exec(std::shared_ptr<IMap> map) = 0;
+    virtual void exec(std::shared_ptr<IMap> map) const = 0;
     virtual ~ICommand() = default;
 
     Point getPoint() const {
@@ -38,7 +38,7 @@ class MoveCommand : public ICommand {
 public:
     MoveCommand(const TypeCommand& typeCommand,
                 const Point& point);
-    void exec(std::shared_ptr<IMap> map) override;           
+    void exec(std::shared_ptr<IMap> map) const override;           
     
 };
 
@@ -46,7 +46,7 @@ class LineCommand : public ICommand {
 public:
     LineCommand(const TypeCommand& typeCommand,
                 const Point& point);
-    void exec(std::shared_ptr<IMap> map) override;    
+    void exec(std::shared_ptr<IMap> map) const override;    
 };
 
 
@@ -54,6 +54,6 @@ class SpecialCommad : public ICommand {
 public:
     SpecialCommad(const TypeCommand& typeCommand,
                 const Point& point);
-    void exec(std::shared_ptr<IMap> map) override;    
+    void exec(std::shared_ptr<IMap> map) const override;    
 };
 

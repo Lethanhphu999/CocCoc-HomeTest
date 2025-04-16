@@ -1,11 +1,10 @@
 #pragma once
 
-#include "pch.h"
-#include "command_controller.h"
-#include "map.h"
+#include "commands/command_controller.h"
+#include "data/map.h"
 
-class IMap;
 class CommandController;
+class IMap;
 
 class Application {
 public:

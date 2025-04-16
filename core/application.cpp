@@ -1,4 +1,4 @@
-#include "application.h"
+#include "core/application.h"
 
 class Map;
 
@@ -21,6 +21,5 @@ void Application::start() {
 void Application::end() {
     std::cout << "------------End CocCoc-HomeTest---------------\n";
 }
-
 
 

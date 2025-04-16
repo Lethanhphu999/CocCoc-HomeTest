@@ -1,4 +1,4 @@
-#include "map.h"
+#include "data/map.h"
 
 Map::Map(const std::string& path)
 : _path(path) {

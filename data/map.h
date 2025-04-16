@@ -59,6 +59,6 @@ private:
     void clearPoint(const Point& point);
 
     const std::string _path;
-    std::vector<Point> _point;
+    std::vector<Point> _points;
     Point _currentPoint;
 };
