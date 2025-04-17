@@ -6,5 +6,6 @@ cd build
 cmake .. 
 make
 
-echo -e "\n============ Running CocCoc ============"
-./CocCoc
+echo -e "\n============ Running CocCoc-HomeTest ============"
+
+./CocCoc-HomeTest

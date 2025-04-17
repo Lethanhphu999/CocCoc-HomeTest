@@ -13,6 +13,6 @@ cmake --build .
 if errorlevel 1 exit /b %errorlevel%
 
 echo.
-echo ============ Running CocCoc ============
-CocCoc.exe
+echo ============ CocCoc-HomeTest ============
+CocCoc-HomeTest.exe
 exit /b 0
