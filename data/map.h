@@ -3,22 +3,22 @@
 struct Point {
     long long x;
     long long y;
-    char symbol;
+    char symbol = '.';
 
-    Point() : x(0), y(0), symbol('.') {}
+    Point() : x(0), y(0) {}
+    Point(long long x_, long long y_) : x(x_), y(y_) {}
 
-    Point& operator+(const Point& other) {
-        this->x = this->x + other.x;
-        this->y = this->y + other.y;
-        
-        return *this;
-    } 
+    Point(const Point&) = default;
+    Point(Point&&) = default;
+    Point& operator=(const Point&) = default;
+    Point& operator=(Point&&) = default;
 
-    Point& operator-(const Point& other) {
-        this->x = this->x - other.x;
-        this->y = this->y - other.y;
-        
-        return *this;
+    Point operator+(const Point& other) const {
+        return {x + other.x, y + other.y};
+    }
+
+    Point operator-(const Point& other) const {
+        return {x - other.x, y - other.y};
     }
 
 };
@@ -26,7 +26,7 @@ struct Point {
 struct ConfigurationAction {
     Point p;
 
-    ConfigurationAction(Point&& point) :
+    ConfigurationAction(const Point& point) :
         p(point) {
 
     }

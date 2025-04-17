@@ -12,6 +12,14 @@ enum class TypeCommand {
     SPECIAL, 
 };
 
+struct Command {
+    TypeCommand type;
+    Point point;
+
+    Command(TypeCommand t, Point p) : type(t), point(p) {}
+    Command() : type(TypeCommand::MOVE_TO) {}
+};
+
 class ICommand {
 public:
 
