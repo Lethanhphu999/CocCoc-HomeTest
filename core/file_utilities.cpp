@@ -8,7 +8,12 @@ enum class TypeCommand;
 
 namespace {
 
-const std::string kTripleQuote = "\"\"\"";
+const std::string kTripleQuote = "“””";
+const std::unordered_map<std::string, TypeCommand> kKeywordCommandMap = {
+    {"MOVE_TO", TypeCommand::MOVE_TO},
+    {"LINE_TO", TypeCommand::LINE_TO},
+    {"SPECIAL", TypeCommand::SPECIAL}
+};
 
 } // namesapce
 
@@ -19,8 +24,11 @@ DataReadFile parseFile(const std::string &path) {
     DataReadFile data;
     using Type = TypeCommand;
 
+    std::cout << "Current working directory: " 
+              << std::filesystem::current_path() << std::endl;
+
     if (!file.is_open()) {
-        data.result = Result::Error("Can not open file: " + path);
+        data.result = Result::Error("Can not open file: " + path + "\n");
         return data;
     }
 
@@ -34,7 +42,7 @@ DataReadFile parseFile(const std::string &path) {
     }
 
     if (lines.size() < 2 || lines.front() != kTripleQuote || lines.back() != kTripleQuote) {
-        data.result = Result::Error("The file is not wrapped with \"\"\"");
+        data.result = Result::Error("The file is not wrapped with “””\n");
         return data;
     }
 
@@ -45,39 +53,39 @@ DataReadFile parseFile(const std::string &path) {
 
         if (keyword == "DIMENSION") {
             if (!(iss >> data.N)) {
-                data.result = Result::Error("Failed to read DIMENSION");
+                data.result = Result::Error("Failed to read DIMENSION\n");
                 return data;
             }
-        } else if (keyword == "MOVE_TO" || keyword == "LINE_TO") {
+        } else if (keyword == "MOVE_TO"
+                || keyword == "LINE_TO"
+                || keyword == "SPECIAL") {
             std::string coords;
             if (!(iss >> coords)) {
-                data.result = Result::Error("Error reading coordinates at line:" + lines[i]);
+                data.result = Result::Error("Error reading coordinates at line:" + lines[i] + "\n");
                 return data;
             }
 
             size_t comma = coords.find(',');
             if (comma == std::string::npos) {
-                data.result = Result::Error("Invalid coordinate format:" + coords);
+                data.result = Result::Error("Invalid coordinate format:" + coords + + "\n");
                 return data;
             }
 
             try {
                 int x = std::stoi(coords.substr(0, comma));
                 int y = std::stoi(coords.substr(comma + 1));
-                data.commands.push_back({
-                    keyword == "MOVE_TO" ? Type::MOVE_TO : Type::LINE_TO,
-                    {x, y}
-                });
-                // Command cmd;
-                // cmd.type = (keyword == "MOVE_TO" ? Type::MOVE_TO : Type::LINE_TO);
-                // cmd.point = Point{x, y};
-                // data.commands.push_back(cmd);
+                auto it = kKeywordCommandMap.find(keyword);
+                if (it != kKeywordCommandMap.end()) {
+                    data.commands.push_back({it->second, {x, y}});
+                } else {
+                    data.result = Result::Error("Invalid keyword: " + keyword + "\n");
+                }
             } catch (const std::exception& e) {
-                data.result = Result::Error("Failed to parse coordinates: " + coords);
+                data.result = Result::Error("Failed to parse coordinates: " + coords + + "\n");
                 return data;
             }
         } else {
-            data.result = Result::Error("Invalid keyword: " + keyword);
+            data.result = Result::Error("Invalid keyword: " + keyword + "\n");
             return data;
         }
     }
