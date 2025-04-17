@@ -19,11 +19,11 @@ struct Result {
         return { Type::Error, msg };
     }
 
-    bool isSuccess() const {
-        return type == Type::Success;
+    bool isError() const {
+        return type == Type::Error;
     }
-};
 
+};
 
 struct DataReadFile {
     int N;
@@ -31,10 +31,9 @@ struct DataReadFile {
     Result result;
 };
 
-
 namespace File {
 
-DataReadFile Readfile(const std::string &path);
+DataReadFile parseFile(const std::string &path);
 Result Writefile(const std::string& path);
 
 }

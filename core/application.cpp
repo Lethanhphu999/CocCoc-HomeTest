@@ -1,16 +1,31 @@
+#include "data/map.h"
+#include "core/file_utilities.h"
+
 #include "core/application.h"
 
 class Map;
 
 Application::Application(const std::string& path)
-: _commandController(std::make_unique<CommandController>(path)),
-_map(std::make_shared<Map>(path)) {
+: _commandController(std::make_unique<CommandController>()),
+_map(std::make_shared<Map>()), 
+_path(path) {
 }
 
 void Application::exec() {
     start();
+    auto resultReadRile = File::parseFile(_path);
+    if (resultReadRile.result.isError()) {
+        std::cout << resultReadRile.result.message;
+        return;
+    } else {
+        std::cout << "Read File oke!!!\n";
+    }
+    _map->init(resultReadRile.N);
+    _map->print();
+    _commandController->prepare(std::move(resultReadRile.commands));
     _commandController->execCommands(_map);
     _commandController->execSpecialCommands(_map);
+    _map->print();
     end();
 }
 

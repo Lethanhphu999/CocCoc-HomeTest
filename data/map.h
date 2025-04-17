@@ -13,21 +13,13 @@ struct Point {
     Point& operator=(const Point&) = default;
     Point& operator=(Point&&) = default;
 
-    Point operator+(const Point& other) const {
-        return {x + other.x, y + other.y};
-    }
-
-    Point operator-(const Point& other) const {
-        return {x - other.x, y - other.y};
-    }
-
 };
 
 struct ConfigurationAction {
-    Point p;
+    Point nextPoint;
 
     ConfigurationAction(const Point& point) :
-        p(point) {
+        nextPoint(point) {
 
     }
 
@@ -38,27 +30,44 @@ public:
     IMap() = default;
     virtual ~IMap() = default; 
 
-    virtual void moveTo(const ConfigurationAction&) = 0;
-    virtual void lineTo(const ConfigurationAction&) = 0;
+    virtual void init(long long dimention) = 0;
+    virtual void print() const = 0;
+    void lineTo(const ConfigurationAction&);
+    
     virtual void handleSpecialAction() {
         return;
     }
+
+    virtual void moveTo(const ConfigurationAction& configuration)  {
+        _currentPoint = configuration.nextPoint;
+    }
+
+    virtual Point getCurrentPoint() const {
+        return _currentPoint;
+    }
+
+protected:
+    virtual void clearPoint(const Point&) = 0;
+    void Bresenham(const Point& start, const Point& end);
+    Point _currentPoint;
+    long long _dimension;
 };
 
 
 class Map : public IMap {
 public:
-    Map(const std::string& path);
+    Map();
     ~Map() = default;
 
-    void moveTo(const ConfigurationAction&) override;
-    void lineTo(const ConfigurationAction&) override;
+    void init(long long size) override;
+    void print() const override;
     void handleSpecialAction() override;
 
-private:    
-    void clearPoint(const Point& point);
+protected:
+    void clearPoint(const Point&) override;
 
-    const std::string _path;
+private:    
+
     std::vector<Point> _points;
-    Point _currentPoint;
+
 };

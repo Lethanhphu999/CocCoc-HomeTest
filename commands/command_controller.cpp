@@ -1,13 +1,16 @@
 #include "commands/command_controller.h"
 
 
-CommandController::CommandController(const std::string& path)
-: _path(path) {
-    parseCommands();
+CommandController::CommandController() {
+
 }
 
-void CommandController::parseCommands() {
-
+void CommandController::prepare(std::vector<Command> commands) {
+    _commands.reserve(commands.size());
+    for(const auto& command : commands) {
+        _commands.emplace_back(std::move(
+            ICommand::Create(command.type,command.point)));
+    }
 }
 
 void CommandController::execCommands(std::shared_ptr<IMap> map) {

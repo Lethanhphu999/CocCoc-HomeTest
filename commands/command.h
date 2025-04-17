@@ -23,7 +23,7 @@ struct Command {
 class ICommand {
 public:
 
-    static std::shared_ptr<ICommand> Create(const TypeCommand& type,
+    static std::unique_ptr<ICommand> Create(const TypeCommand& type,
                                             const Point& point);
     virtual void exec(std::shared_ptr<IMap> map) const = 0;
     virtual ~ICommand() = default;

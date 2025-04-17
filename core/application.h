@@ -1,7 +1,6 @@
 #pragma once
 
 #include "commands/command_controller.h"
-#include "data/map.h"
 
 class CommandController;
 class IMap;

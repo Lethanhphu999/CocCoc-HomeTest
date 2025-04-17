@@ -8,18 +8,18 @@ _point(point) {
 
 }
 
-std::shared_ptr<ICommand> ICommand::Create(const TypeCommand& type,
+std::unique_ptr<ICommand> ICommand::Create(const TypeCommand& type,
     const Point& point) {
         using Type = TypeCommand;
         switch (type) {
         case Type::MOVE_TO:
-            return std::make_shared<MoveCommand>(type, point);
+            return std::make_unique<MoveCommand>(type, point);
             break;
         case Type::LINE_TO:
-            return std::make_shared<LineCommand>(type, point);
+            return std::make_unique<LineCommand>(type, point);
             break;
         case Type::SPECIAL:
-            return std::make_shared<SpecialCommad>(type, point);
+            return std::make_unique<SpecialCommad>(type, point);
             break;    
         default:
             throw("NOT FOUND TYPE COMMAND!!!");
