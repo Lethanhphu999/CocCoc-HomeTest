@@ -8,12 +8,25 @@ enum class TypeCommand;
 
 namespace {
 
-const std::string kTripleQuote = "“””";
 const std::unordered_map<std::string, TypeCommand> kKeywordCommandMap = {
     {"MOVE_TO", TypeCommand::MOVE_TO},
     {"LINE_TO", TypeCommand::LINE_TO},
     {"SPECIAL", TypeCommand::SPECIAL}
 };
+
+const std::string chainCommand() {
+    std::string result;
+    bool firstCmd = true;
+    for (const auto& [cmd, _] : kKeywordCommandMap) {
+        if (!firstCmd) {
+            result += "|";
+        }
+        result += cmd;
+        firstCmd = false;
+    }
+
+    return result;
+}
 
 } // namesapce
 
@@ -32,67 +45,51 @@ DataReadFile parseFile(const std::string &path) {
         return data;
     }
 
+    std::regex regexDimension(R"(^DIMENSION\s(\d+)$)");
+    std::regex regexCommand("^(" + chainCommand() + R"()\s(\d+),(\d+)$)");
+    std::smatch match;
+
+    int lineNumber = 1;
     std::string line;
-    std::vector<std::string> lines;
-
+    std::vector<std::string> errors;
+    
     while (std::getline(file, line)) {
-        if (!line.empty()) {
-            lines.push_back(line);
-        }
-    }
-
-    if (lines.size() < 2 
-        || lines.front() != kTripleQuote 
-        || lines.back() != kTripleQuote) {
-        data.result = Result::Error("The file is not wrapped with “””\n");
-        return data;
-    }
-
-    for (size_t i = 1; i + 1 < lines.size(); ++i) {
-        std::istringstream iss(lines[i]);
-        std::string keyword;
-        iss >> keyword;
-
-        if (keyword == "DIMENSION") {
-            if (!(iss >> data.N)) {
-                data.result = Result::Error("Failed to read DIMENSION\n");
-                return data;
-            }
-        } else if (keyword == "MOVE_TO"
-                || keyword == "LINE_TO"
-                || keyword == "SPECIAL") {
-            std::string coords;
-            if (!(iss >> coords)) {
-                data.result = Result::Error("Error reading coordinates at line:" + lines[i] + "\n");
-                return data;
-            }
-
-            size_t comma = coords.find(',');
-            if (comma == std::string::npos) {
-                data.result = Result::Error("Invalid coordinate format:" + coords + + "\n");
-                return data;
-            }
-
+        if (std::regex_match(line, match, regexDimension)
+            || lineNumber == 1) {
             try {
-                int x = std::stoi(coords.substr(0, comma));
-                int y = std::stoi(coords.substr(comma + 1));
-                auto it = kKeywordCommandMap.find(keyword);
+                data.N = std::stoll(match[1]);
+            } catch (...) {
+                errors.push_back("Invalid dimention at line " + std::to_string(lineNumber) + ": " + line);
+            }
+        } else if (std::regex_match(line, match, regexCommand)) {
+            const std::string& cmd = match[1];
+            try {
+                long long x = std::stoll(match[2]);
+                long long y = std::stoll(match[3]);
+    
+                auto it = kKeywordCommandMap.find(cmd);
                 if (it != kKeywordCommandMap.end()) {
                     data.commands.push_back({it->second, {x, y}});
                 } else {
-                    data.result = Result::Error("Invalid keyword: " + keyword + "\n");
+                    errors.push_back("Invalid keyword " + cmd + " at line " + std::to_string(lineNumber));
                 }
-            } catch (const std::exception& e) {
-                data.result = Result::Error("Failed to parse coordinates: " + coords + "\n");
-                return data;
+            } catch (...) {
+                errors.push_back("Failed to parse coordinates at line " + std::to_string(lineNumber));
             }
         } else {
-            data.result = Result::Error("Invalid keyword: " + keyword + "\n");
-            return data;
+            errors.push_back("Invalid format at line " + std::to_string(lineNumber) + ": " + line);
         }
+    
+        ++lineNumber;
     }
-
-    data.result = Result::Success();
+    
+    if (!errors.empty()) {
+        std::string errorMessages;
+        for (const auto& err : errors) {
+            errorMessages += err + "\n";
+        }
+        data.result = Result::Error(errorMessages);
+    }
     return data;
 }
 
