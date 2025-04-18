@@ -16,4 +16,4 @@ cmake -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
 cmake --build .
 
 echo ============ Running CocCoc-HomeTest ============
-.\CocCoc-HomeTest
+.\CocCoc-HomeTest.exe
