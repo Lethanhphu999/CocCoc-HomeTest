@@ -1,18 +1,19 @@
 @echo off
-setlocal
+
+set BUILD_TYPE=Release
+if "%1"=="--debug" (
+    set BUILD_TYPE=Debug
+)
+
+echo -- Build type: %BUILD_TYPE%
 
 if not exist build (
     mkdir build
 )
 cd build
 
-cmake ..
-if errorlevel 1 exit /b %errorlevel%
-
+cmake -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ..
 cmake --build .
-if errorlevel 1 exit /b %errorlevel%
 
-echo.
-echo ============ CocCoc-HomeTest ============
-CocCoc-HomeTest.exe
-exit /b 0
+echo ============ Running CocCoc-HomeTest ============
+.\CocCoc-HomeTest
