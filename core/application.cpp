@@ -18,7 +18,9 @@ void Application::exec() {
         std::cout << resultReadRile.result.message;
         return;
     } else {
+#ifdef DEBUG
         std::cout << "Read File oke!!!\n";
+#endif
     }
     _map->init(resultReadRile.N);
     _map->print();

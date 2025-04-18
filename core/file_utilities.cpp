@@ -23,10 +23,10 @@ DataReadFile parseFile(const std::string &path) {
     std::ifstream file(path);
     DataReadFile data;
     using Type = TypeCommand;
-
+#ifdef DEBUG
     std::cout << "Current working directory: " 
               << std::filesystem::current_path() << std::endl;
-
+#endif
     if (!file.is_open()) {
         data.result = Result::Error("Can not open file: " + path + "\n");
         return data;
@@ -41,7 +41,9 @@ DataReadFile parseFile(const std::string &path) {
         }
     }
 
-    if (lines.size() < 2 || lines.front() != kTripleQuote || lines.back() != kTripleQuote) {
+    if (lines.size() < 2 
+        || lines.front() != kTripleQuote 
+        || lines.back() != kTripleQuote) {
         data.result = Result::Error("The file is not wrapped with “””\n");
         return data;
     }
@@ -81,7 +83,7 @@ DataReadFile parseFile(const std::string &path) {
                     data.result = Result::Error("Invalid keyword: " + keyword + "\n");
                 }
             } catch (const std::exception& e) {
-                data.result = Result::Error("Failed to parse coordinates: " + coords + + "\n");
+                data.result = Result::Error("Failed to parse coordinates: " + coords + "\n");
                 return data;
             }
         } else {

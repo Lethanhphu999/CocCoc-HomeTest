@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Debug)
 
 set(SOURCES
     commands/command.cpp
@@ -29,6 +29,13 @@ add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "CMAKE_BUILD_TYPE: Release")
+else()
+    message(STATUS "CMAKE_BUILD_TYPE: Debug")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG=1)
+endif()
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
 
