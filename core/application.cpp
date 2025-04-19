@@ -4,6 +4,7 @@
 #include "core/application.h"
 
 class Map;
+class SparseMap;
 
 Application::Application(const std::string& path)
 : _commandController(std::make_unique<CommandController>()),

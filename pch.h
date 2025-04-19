@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -6,6 +7,8 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+#include <set>
+#include <optional>
 #include <regex>
 
 #include <filesystem>
