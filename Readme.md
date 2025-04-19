@@ -22,6 +22,7 @@ Open a terminal and run:
 ```bash
 sudo apt install git
 sudo apt install cmake
+sudo apt install build-essential manpages-dev
 ```
 
 ## Clone source code

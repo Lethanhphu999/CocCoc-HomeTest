@@ -39,16 +39,16 @@ void Map::init(long long dimension) {
     _dimension = dimension;
     _points.reserve(dimension * dimension);
 
-    for (int y = 0; y < dimension; ++y) {
-        for (int x = 0; x < dimension; ++x) {
+    for (long long y = 0; y < dimension; ++y) {
+        for (long long x = 0; x < dimension; ++x) {
             _points.emplace_back(x, y);  
         }
     }
 }
 
 void Map::print() const {
-    for (int y = 0; y < _dimension; ++y) {
-        for (int x = 0; x < _dimension; ++x) {
+    for (long long y = 0; y < _dimension; ++y) {
+        for (long long x = 0; x < _dimension; ++x) {
             std::cout << _points[y * _dimension + x].symbol << ' '; 
         }
         std::cout << "\n";
