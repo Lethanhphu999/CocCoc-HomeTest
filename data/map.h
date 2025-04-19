@@ -58,7 +58,7 @@ protected:
 
 class Map : public IMap {
 public:
-    Map();
+    Map() = default;
     ~Map() = default;
 
     void init(long long size) override;
@@ -91,7 +91,7 @@ struct PointRange {
 
 class SparseMap : public IMap {
 public:
-    SparseMap();
+    SparseMap() = default;
     ~SparseMap() = default;
 
     void init(long long dimension) override;

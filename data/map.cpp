@@ -1,11 +1,5 @@
 #include "data/map.h"
 
-
-void IMap::lineTo(const ConfigurationAction& configuration) {
-    Bresenham(getCurrentPoint(), configuration.nextPoint);
-    moveTo(configuration.nextPoint);
-}
-
 void IMap::Bresenham(const Point& start, const Point& end) {
     long long x0 = start.x;
     long long y0 = start.y;
@@ -36,8 +30,9 @@ void IMap::Bresenham(const Point& start, const Point& end) {
 
 }
 
-Map::Map() {
-    
+void IMap::lineTo(const ConfigurationAction& configuration) {
+    Bresenham(getCurrentPoint(), configuration.nextPoint);
+    moveTo(configuration.nextPoint);
 }
 
 void Map::init(long long dimension) {
@@ -46,7 +41,7 @@ void Map::init(long long dimension) {
 
     for (int y = 0; y < dimension; ++y) {
         for (int x = 0; x < dimension; ++x) {
-            _points.emplace_back(y, x);  
+            _points.emplace_back(x, y);  
         }
     }
 }
@@ -61,7 +56,6 @@ void Map::print() const {
 
 }
 
-
 void Map::handleSpecialAction() {
 
 }
@@ -70,14 +64,9 @@ void Map::clearPoint(const Point& point) {
     _points[point.y * _dimension + point.x].symbol = '+';
 }
 
-
 SparseMap::Slice::Slice(std::set<Point>&& pts, PointRange r)
 : points(std::move(pts)),
 range(r) {
-
-}
-
-SparseMap::SparseMap() {
 
 }
 
