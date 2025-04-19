@@ -1,23 +1,31 @@
 # CocCoc-HomeTest
 
-- [Install third party software](#install-third-party-software)
-- [Clone source code](#clone-source-code)
-- [Build the project](#build-the-project)
+- [Prerequisites](#prerequisites)
+- [Install Third-Party Software](#install-third-party-software)
+- [Clone Source Code](#clone-source-code)
+- [Build the Project](#build-the-project)
 
-## Install third party software
-Với hê điều hành Windows:
-* Download **Git** installer từ [https://git-scm.com/download/win](https://git-scm.com/download/win) và cài đặt.
-* Download **CMake** installer từ [https://cmake.org/download/](https://cmake.org/download/) và cài đặt.
+## Prerequisites
+* Git
+* CMake
+* GCC (Linux) or Visual Studio 2019–2022 (Windows)
 
-Với hệ điều hành Ubuntu:
-* Mở termial nhập command:
+## Install Third-Party Software
 
-``` bash
-sudo dnf install git-all
+### On Windows:
+* Download and install **Git** from [https://git-scm.com/download/win](https://git-scm.com/download/win).
+* Download and install **CMake** from [https://cmake.org/download/](https://cmake.org/download/).
+
+### On Linux:
+Open a terminal and run:
+
+```bash
+sudo apt install git
 sudo apt install cmake
 ```
+
 ## Clone source code
-* Mở **cmd** trên Windows, **terminal** trên Ubuntu:
+Open Command Prompt on Windows or Terminal on Linux:
 
 ```bash
 git clone https://github.com/Lethanhphu999/CocCoc-HomeTest.git
@@ -25,13 +33,14 @@ cd CocCoc-HomeTest
 ```
 
 ## Build the project
-Với hê điều hành Windows:
 
-```bash
+For Windows:
+
+```bat
 ./build-windows.bat
 ```
 
-Với hệ điều hành Ubuntu:
+For Linux:
 
 ```bash
 ./build-linux.sh
