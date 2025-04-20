@@ -50,7 +50,9 @@ public:
 
 protected:
     virtual void clearPoint(const Point&) = 0;
-    void Bresenham(const Point& start, const Point& end);
+    void drawLineV(Point start, Point end);
+    void drawLineH(Point start, Point end);
+    void drawBresenhamLine(const Point& start, const Point& end);
     Point _currentPoint;
     long long _dimension;
 };
@@ -121,8 +123,8 @@ private:
     bool inRange(const PointRange& range, const Point& pt) const;
     bool contains(const Point& pt) const;
 
-    void mergeSlices(std::vector<Slice>::iterator dst,
-        std::vector<Slice>::iterator src);
+    void mergeSlices(std::vector<Slice>::iterator targetSlice,
+        std::vector<Slice>::iterator sourceSlice);
     void updateRange(PointRange& range, PointId pointId);
     void addNew(const Point& point);
 

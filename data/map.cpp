@@ -1,37 +1,55 @@
 #include "data/map.h"
 
-void IMap::Bresenham(const Point& start, const Point& end) {
-    long long x0 = start.x;
-    long long y0 = start.y;
-    long long x1 = end.x;
-    long long y1 = end.y;
+void IMap::drawLineH(Point start, Point end) {
+    if (start.x > end.x) {
+        std::swap(start, end);
+    } 
+    long long dx = end.x - start.x;
+    long long dy = std::abs(end.y - start.y);
+    long long yStep = (start.y < end.y) ? 1 : -1;
+    long long delta = 2 * dy - dx;
 
-    long long dx = std::abs(x1 - x0);
-    long long dy = std::abs(y1 - y0);
-    long long sx = (x0 < x1) ? 1 : -1;
-    long long sy = (y0 < y1) ? 1 : -1;
-    long long err = dx - dy;
-
-    while (true) {
-        clearPoint({x0, y0});  
-
-        if (x0 == x1 && y0 == y1) break;
-
-        long long e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x0 += sx;
+    long long y = start.y;
+    for (long long x = start.x; x <= end.x; ++x) {
+        clearPoint({x, y});
+        if (delta > 0) {
+            y += yStep;
+            delta -= 2 * dx;
         }
-        if (e2 < dx) {
-            err += dx;
-            y0 += sy;
-        }
+        delta += 2 * dy;
     }
+}
 
+void IMap::drawLineV(Point start, Point end) {
+    if (start.y > end.y) {
+        std::swap(start, end);
+    } 
+    long long dx = std::abs(end.x - start.x);
+    long long dy = end.y - start.y;
+    long long xStep = (start.x < end.x) ? 1 : -1;
+    long long delta = 2 * dx - dy;
+
+    long long x = start.x;
+    for (long long y = start.y; y <= end.y; ++y) {
+        clearPoint({x, y});
+        if (delta > 0) {
+            x += xStep;
+            delta -= 2 * dy;
+        }
+        delta += 2 * dx;
+    }
+}
+
+void IMap::drawBresenhamLine(const Point& start, const Point& end) {
+    if (std::abs(end.x - start.x) > std::abs(end.y - start.y)) {
+        drawLineH(start, end);
+    } else {
+        drawLineV(start, end);
+    }
 }
 
 void IMap::lineTo(const ConfigurationAction& configuration) {
-    Bresenham(getCurrentPoint(), configuration.nextPoint);
+    drawBresenhamLine(getCurrentPoint(), configuration.nextPoint);
     moveTo(configuration.nextPoint);
 }
 

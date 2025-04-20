@@ -73,7 +73,7 @@ DataReadFile parseFile(const std::string &path) {
                     && 0 <= y && y < data.N) {
                     data.commands.push_back({it->second, {x, y}});
                 } else {
-                    errors.push_back("Invalid keyword " + cmd + " at line " + std::to_string(lineNumber));
+                    errors.push_back("Invalid keyword or coordinates " + cmd + " at line " + std::to_string(lineNumber));
                 }
             } catch (...) {
                 errors.push_back("Failed to parse coordinates at line " + std::to_string(lineNumber));
