@@ -42,8 +42,8 @@ endif()
 target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
 
 if(ENABLE_TEST)
-    add_subdirectory(THirdParty/gtest)
     enable_testing()
+    add_subdirectory(ThirdParty/gtest)
     add_subdirectory(test)
 endif()
 #set_target_properties(CocCoc PROPERTIES

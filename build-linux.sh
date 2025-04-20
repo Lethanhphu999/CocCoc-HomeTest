@@ -25,7 +25,7 @@ cmake --build .
 
 if [[ "$ENABLE_TEST" == "ON" ]]; then
   echo "Running tests..."
-  ctest
+  ctest --verbose
 else  
   echo -e "\n============ Running CocCoc-HomeTest ============"
   ./CocCoc-HomeTest
