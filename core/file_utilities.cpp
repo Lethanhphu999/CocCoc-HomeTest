@@ -68,7 +68,9 @@ DataReadFile parseFile(const std::string &path) {
                 long long y = std::stoll(match[3]);
     
                 auto it = kKeywordCommandMap.find(cmd);
-                if (it != kKeywordCommandMap.end()) {
+                if (it != kKeywordCommandMap.end() 
+                    && 0 <= x && x < data.N
+                    && 0 <= y && y < data.N) {
                     data.commands.push_back({it->second, {x, y}});
                 } else {
                     errors.push_back("Invalid keyword " + cmd + " at line " + std::to_string(lineNumber));

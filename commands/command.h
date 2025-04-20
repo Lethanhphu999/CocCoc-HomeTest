@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pch.h"
 #include "data/map.h"
 
 class Map;

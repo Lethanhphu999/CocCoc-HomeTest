@@ -108,12 +108,12 @@ bool SparseMap::contains(const Point& point) const {
     return false;
 }
 
-void SparseMap::mergeSlices(std::vector<Slice>::iterator dst,
-        std::vector<Slice>::iterator src) {
-    dst->points.insert(src->points.begin(), src->points.end());
-    updateRange(dst->range, src->range.from);
-    updateRange(dst->range, src->range.till);
-    _slices.erase(src);
+void SparseMap::mergeSlices(std::vector<Slice>::iterator targetSlice,
+    std::vector<Slice>::iterator sourceSlice) {
+    targetSlice->points.insert(sourceSlice->points.begin(), sourceSlice->points.end());
+    updateRange(targetSlice->range, sourceSlice->range.from);
+    updateRange(targetSlice->range, sourceSlice->range.till);
+    _slices.erase(sourceSlice);
 }
 
 void SparseMap::updateRange(PointRange &range, PointId pointId) {
@@ -142,8 +142,8 @@ void SparseMap::addNew(const Point& point) {
     bool mergedRight = false;
 
     if (it != _slices.end()
-        && (toPointId(point) == it->range.from
-            || toPointId(point) == it->range.till)) {
+        && (it->range.from <= pointId
+        && pointId <= it->range.till)) {
         return;
     }   
 
@@ -152,7 +152,7 @@ void SparseMap::addNew(const Point& point) {
         long long prevTillId = prev->range.till;
         if (prevTillId + 1 == pointId) {
             prev->points.insert(point);
-            updateRange(prev->range, toPointId(point));
+            updateRange(prev->range, pointId);
             mergedLeft = true;
         }
     }
@@ -164,15 +164,15 @@ void SparseMap::addNew(const Point& point) {
                 mergeSlices(it - 1, it);
             } else {
                 it->points.insert(point);
-                updateRange(it->range, toPointId(point));
+                updateRange(it->range, pointId);
             }
             mergedRight = true;
         }
     }
 
     if (!mergedLeft && !mergedRight) {
-        std::set<Point> pts{ point };
-        _slices.emplace(it, std::move(pts), pointRange);
+        std::set<Point> newPoint{ point };
+        _slices.emplace(it, std::move(newPoint), pointRange);
         std::sort(_slices.begin(), _slices.end(), [](const Slice& s1, const Slice& s2) {
             return s1.range.from < s2.range.from;
         });
