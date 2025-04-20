@@ -82,6 +82,10 @@ DataReadFile parseFile(const std::string &path) {
     
         ++lineNumber;
     }
+
+    if (lineNumber == 1) {
+        errors.push_back("File input is empty\n");
+    }
     
     if (!errors.empty()) {
         std::string errorMessages;

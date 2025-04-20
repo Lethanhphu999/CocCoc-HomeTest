@@ -141,6 +141,12 @@ void SparseMap::addNew(const Point& point) {
     bool mergedLeft = false;
     bool mergedRight = false;
 
+    if (it != _slices.end()
+        && (toPointId(point) == it->range.from
+            || toPointId(point) == it->range.till)) {
+        return;
+    }   
+
     if (it != _slices.begin()) {
         auto prev = std::prev(it);
         long long prevTillId = prev->range.till;
@@ -148,7 +154,6 @@ void SparseMap::addNew(const Point& point) {
             prev->points.insert(point);
             updateRange(prev->range, toPointId(point));
             mergedLeft = true;
-            it = prev;
         }
     }
 
@@ -168,5 +173,8 @@ void SparseMap::addNew(const Point& point) {
     if (!mergedLeft && !mergedRight) {
         std::set<Point> pts{ point };
         _slices.emplace(it, std::move(pts), pointRange);
+        std::sort(_slices.begin(), _slices.end(), [](const Slice& s1, const Slice& s2) {
+            return s1.range.from < s2.range.from;
+        });
     }
 }
