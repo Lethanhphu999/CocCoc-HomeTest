@@ -1,5 +1,10 @@
 #include "data/map.h"
 
+/**
+ * @brief Draws a horizontal line on the map
+ * @param start Starting point
+ * @param end Ending point
+ */
 void IMap::drawLineH(Point start, Point end) {
     if (start.x > end.x) {
         std::swap(start, end);
@@ -20,6 +25,11 @@ void IMap::drawLineH(Point start, Point end) {
     }
 }
 
+/**
+ * @brief Draws a vertical line on the map
+ * @param start Starting point
+ * @param end Ending point
+ */
 void IMap::drawLineV(Point start, Point end) {
     if (start.y > end.y) {
         std::swap(start, end);
@@ -40,6 +50,11 @@ void IMap::drawLineV(Point start, Point end) {
     }
 }
 
+/**
+ * @brief Draws a line using Bresenham's algorithm
+ * @param start Starting point
+ * @param end Ending point
+ */
 void IMap::drawBresenhamLine(const Point& start, const Point& end) {
     if (std::abs(end.x - start.x) > std::abs(end.y - start.y)) {
         drawLineH(start, end);
@@ -48,11 +63,19 @@ void IMap::drawBresenhamLine(const Point& start, const Point& end) {
     }
 }
 
+/**
+ * @brief Draws a line from current point to the target point
+ * @param configuration Configuration containing the target point
+ */
 void IMap::lineTo(const ConfigurationAction& configuration) {
     drawBresenhamLine(getCurrentPoint(), configuration.nextPoint);
-    moveTo(configuration.nextPoint);
+    moveTo(ConfigurationAction(configuration.nextPoint));
 }
 
+/**
+ * @brief Initializes the map with the given dimension
+ * @param dimension Size of the map
+ */
 void Map::init(long long dimension) {
     _dimension = dimension;
     _points.reserve(dimension * dimension);
@@ -64,6 +87,9 @@ void Map::init(long long dimension) {
     }
 }
 
+/**
+ * @brief Prints the map to the console
+ */
 void Map::print() const {
     for (long long y = 0; y < _dimension; ++y) {
         for (long long x = 0; x < _dimension; ++x) {
@@ -71,27 +97,44 @@ void Map::print() const {
         }
         std::cout << "\n";
     }
-
 }
 
+/**
+ * @brief Handles special actions on the map
+ */
 void Map::handleSpecialAction() {
-
+    // Default implementation does nothing
 }
 
+/**
+ * @brief Clears a point on the map
+ * @param point Point to clear
+ */
 void Map::clearPoint(const Point& point) {
     _points[point.y * _dimension + point.x].symbol = '+';
 }
 
+/**
+ * @brief Constructor for Slice
+ * @param pts Set of points
+ * @param r Range of the slice
+ */
 SparseMap::Slice::Slice(std::set<Point>&& pts, PointRange r)
-: points(std::move(pts)),
-range(r) {
-
+    : points(std::move(pts))
+    , range(r) {
 }
 
+/**
+ * @brief Initializes the sparse map with the given dimension
+ * @param dimension Size of the map
+ */
 void SparseMap::init(long long dimension) {
     _dimension = dimension;
 }
 
+/**
+ * @brief Prints the sparse map to the console
+ */
 void SparseMap::print() const {
     for (long long y = 0; y < _dimension; ++y) {
         for (long long x = 0; x < _dimension; ++x) {
@@ -105,18 +148,36 @@ void SparseMap::print() const {
     }
 }
 
+/**
+ * @brief Handles special actions on the sparse map
+ */
 void SparseMap::handleSpecialAction() {
-
+    // Default implementation does nothing
 }
 
+/**
+ * @brief Clears a point on the sparse map
+ * @param point Point to clear
+ */
 void SparseMap::clearPoint(const Point& point) {
     addNew(point);
 }
 
+/**
+ * @brief Checks if a point is in the given range
+ * @param range Range to check
+ * @param point Point to check
+ * @return true if the point is in the range, false otherwise
+ */
 bool SparseMap::inRange(const PointRange& range, const Point& point) const {
     return range.from <= toPointId(point) && toPointId(point) <= range.till;
 }
 
+/**
+ * @brief Checks if the map contains a point
+ * @param point Point to check
+ * @return true if the map contains the point, false otherwise
+ */
 bool SparseMap::contains(const Point& point) const {
     for (const auto& slice : _slices) {
         if (inRange(slice.range, point)) {
@@ -126,6 +187,11 @@ bool SparseMap::contains(const Point& point) const {
     return false;
 }
 
+/**
+ * @brief Merges two slices
+ * @param targetSlice Target slice
+ * @param sourceSlice Source slice
+ */
 void SparseMap::mergeSlices(std::vector<Slice>::iterator targetSlice,
     std::vector<Slice>::iterator sourceSlice) {
     targetSlice->points.insert(sourceSlice->points.begin(), sourceSlice->points.end());
@@ -134,7 +200,12 @@ void SparseMap::mergeSlices(std::vector<Slice>::iterator targetSlice,
     _slices.erase(sourceSlice);
 }
 
-void SparseMap::updateRange(PointRange &range, PointId pointId) {
+/**
+ * @brief Updates the range of a slice
+ * @param range Range to update
+ * @param pointId Point ID to include in the range
+ */
+void SparseMap::updateRange(PointRange& range, PointId pointId) {
     long long fromId = range.from;
     long long tillId = range.till;
 
@@ -144,9 +215,12 @@ void SparseMap::updateRange(PointRange &range, PointId pointId) {
     if (pointId > tillId) {
         range.till = pointId;
     }
-
 }
 
+/**
+ * @brief Adds a new point to the map
+ * @param point Point to add
+ */
 void SparseMap::addNew(const Point& point) {
     long long pointId = toPointId(point); 
     PointRange pointRange(point, point, _dimension);

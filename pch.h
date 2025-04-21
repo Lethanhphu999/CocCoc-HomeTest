@@ -10,5 +10,6 @@
 #include <set>
 #include <optional>
 #include <regex>
+#include <cmath>
 
 #include <filesystem>

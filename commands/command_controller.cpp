@@ -1,5 +1,5 @@
 #include "commands/command_controller.h"
-
+#include "commands/command.h"
 
 CommandController::CommandController() {
 
@@ -9,7 +9,7 @@ void CommandController::prepare(std::vector<Command> commands) {
     _commands.reserve(commands.size());
     for(const auto& command : commands) {
         _commands.emplace_back(std::move(
-            ICommand::Create(command.type,command.point)));
+            CreateCommand(command.type, command.point)));
     }
 }
 

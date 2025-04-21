@@ -2,8 +2,10 @@
 
 #include "data/map.h"
 
-class Map;
+// Forward declarations
+class IMap;
 struct Point;
+class ConfigurationAction;
 
 enum class TypeCommand {
     MOVE_TO,
@@ -19,48 +21,74 @@ struct Command {
     Command() : type(TypeCommand::MOVE_TO) {}
 };
 
+// Base command interface
 class ICommand {
 public:
-
-    static std::unique_ptr<ICommand> Create(const TypeCommand& type,
-                                            const Point& point);
     virtual void exec(std::shared_ptr<IMap> map) const = 0;
     virtual ~ICommand() = default;
-
+    
     Point getPoint() const {
         return _point;
     }
 
 protected:
-    ICommand(const TypeCommand& typeCommand,
-        const Point& point);
-        
+    ICommand(const TypeCommand& typeCommand, const Point& point)
+        : _typeCommand(typeCommand), _point(point) {}
     
 private:
     TypeCommand _typeCommand;
     Point _point;
 };
 
-class MoveCommand : public ICommand {
+// CRTP base class for commands
+template<typename Derived>
+class CommandBase : public ICommand {
 public:
-    MoveCommand(const TypeCommand& typeCommand,
-                const Point& point);
-    void exec(std::shared_ptr<IMap> map) const override;           
+    CommandBase(const TypeCommand& typeCommand, const Point& point)
+        : ICommand(typeCommand, point) {}
     
+    void exec(std::shared_ptr<IMap> map) const override {
+        static_cast<const Derived*>(this)->execImpl(map);
+    }
+
+protected:
+    virtual void execImpl(std::shared_ptr<IMap> map) const = 0;
 };
 
-class LineCommand : public ICommand {
+// Factory method declaration
+std::unique_ptr<ICommand> CreateCommand(const TypeCommand& type, const Point& point);
+
+// Move command implementation
+class MoveCommand : public CommandBase<MoveCommand> {
 public:
-    LineCommand(const TypeCommand& typeCommand,
-                const Point& point);
-    void exec(std::shared_ptr<IMap> map) const override;    
+    MoveCommand(const TypeCommand& typeCommand, const Point& point)
+        : CommandBase<MoveCommand>(typeCommand, point) {}
+    
+    void execImpl(std::shared_ptr<IMap> map) const override {
+        map->moveTo(ConfigurationAction(getPoint()));
+    }
 };
 
-
-class SpecialCommad : public ICommand {
+// Line command implementation
+class LineCommand : public CommandBase<LineCommand> {
 public:
-    SpecialCommad(const TypeCommand& typeCommand,
-                const Point& point);
-    void exec(std::shared_ptr<IMap> map) const override;    
+    LineCommand(const TypeCommand& typeCommand, const Point& point)
+        : CommandBase<LineCommand>(typeCommand, point) {}
+    
+    void execImpl(std::shared_ptr<IMap> map) const override {
+        map->lineTo(ConfigurationAction(getPoint()));
+    }
 };
+
+// Special command implementation
+class SpecialCommad : public CommandBase<SpecialCommad> {
+public:
+    SpecialCommad(const TypeCommand& typeCommand, const Point& point)
+        : CommandBase<SpecialCommad>(typeCommand, point) {}
+    
+    void execImpl(std::shared_ptr<IMap> map) const override {
+        map->handleSpecialAction();
+    }
+};
+
 
