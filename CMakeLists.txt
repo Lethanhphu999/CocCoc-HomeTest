@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 #set(CMAKE_BUILD_TYPE Debug)
 
+# Main executable sources
 set(SOURCES
     commands/command.cpp
     commands/command_controller.cpp
@@ -24,11 +25,28 @@ set(HEADERS
     core/application.h
 )
 
-add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
+# Testing configuration
+enable_testing()
+add_subdirectory(ThirdParty/gtest)
+
+# Test sources
+set(TEST_SOURCES
+    data/map_test.cpp
+    commands/command_test.cpp
+    commands/command_controller_test.cpp
+)
+
+# Add test executable
+add_executable(${PROJECT_NAME} ${HEADER} ${SOURCES} ${TEST_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main)
+
+# Add test to CTest
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     message(STATUS "CMAKE_BUILD_TYPE: Release")

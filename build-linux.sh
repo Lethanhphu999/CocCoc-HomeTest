@@ -10,8 +10,8 @@ echo "-- Build type: $BUILD_TYPE"
 mkdir -p build
 cd build
 
-cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
-cmake --build .
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G Ninja ..
+ninja -j8
 
 echo -e "\n============ Running CocCoc-HomeTest ============"
 
